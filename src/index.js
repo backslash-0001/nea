@@ -1,5 +1,4 @@
-// Catch all, log, prompt, exit
-
+// Import input library and functions from other file
 const prompt = require("synchro-prompt");
 const sqlFuns = require("./sqlFuns");
 const login = sqlFuns.login;
@@ -8,10 +7,12 @@ const createUserTable = sqlFuns.createTable;
 const leaderboard = sqlFuns.leaderboard;
 const updateTopScore = sqlFuns.updateScore;
 
+// Create a function that generates number from 1-6
 const throwDie = () => {
   return Math.ceil(Math.random() * 6);
 }
 
+// Create a function that gets top 5 from DB and logs to console
 const logLeaderboard = () => {
   console.log(`
     *******************
@@ -37,12 +38,13 @@ const logLeaderboard = () => {
 
 }
 
-// logLeaderboard();
-// console.log(sqlFuns.getAll())
+// Only needed on first run
 // createUserTable();
+
+// Main function, try-catch used to properly handle errors
 try {
 console.log(`
-   _      __    __                  
+   _      __    __ 
   | | /| / /__ / /______  __ _  ___ 
   | |/ |/ / -_) / __/ _ \\/  ' \\/ -_)
   |__/|__/\\__/_/\\__/\\___/_/_/_/\\__/ 
@@ -50,6 +52,7 @@ console.log(`
   To my NEA Dice Game
 `);
 
+// Initialise player1 & player2
 const player1 = {
   uid: 0,
   name: "",
@@ -70,15 +73,19 @@ const player2 = {
   score: 0
 };
 
+// Attempts authorisation of player1
 try {
+  // Prompts user if they want to login or register
   if (prompt("Player 1, would you like to register or login? (R/l) ").toLowerCase() == "l") {
     console.log("Login:\n");
 
+    // Prompts user for email & password
     let user = login({
       email: prompt("Please enter your email: "),
       pass: prompt("Please enter your password: ")
     });
 
+    // Set player1 values to temporary values
     player1.uid = user.uid;
     player1.name = user.name;
     player1.email = user.email;
@@ -86,12 +93,14 @@ try {
   } else {
     console.log("Register:\n");
 
+    // Prompts user for email, name & password
     let user = register({
       email: prompt("Please enter your email: "),
       name: prompt("Please enter your name: "),
       pass: prompt("Please enter a password: ")
     });
 
+    // Sets player1 values to temporary values
     player1.uid = user.uid;
     player1.name = user.name;
     player1.email = user.email;
@@ -101,6 +110,7 @@ try {
   throw `Error with player1: ${err}`;
 }
 
+// Same as above, but with player2
 try {
   if (prompt("\nPlayer 2, would you like to register or login? (R/l) ").toLowerCase() == "l") {
     console.log("Login:\n");
@@ -132,21 +142,30 @@ try {
   throw `Error with player2: ${err}`;
 }
 
+// Checks if player1 and player2's emails are the same, if so throws error
 if (player1.email == player2.email) throw `Player 1 is also Player 2`;
 
 for (let i = 0; i < 5; i++) {
   player1.throws[i] = []
+  // Appends dice rolls to array of index i in 2D array
   player1.throws[i].push(throwDie());
   player1.throws[i].push(throwDie());
 
+  // If double roll, roll again
   if (player1.throws[i][0] == player1.throws[i][1]) player1.throws[i].push(throwDie());
 
+  // Repeats above with player2
   player2.throws[i] = []
   player2.throws[i].push(throwDie());
   player2.throws[i].push(throwDie());
 
   if (player2.throws[i][0] == player2.throws[i][1]) player2.throws[i].push(throwDie());
 
+  /* Initialise p1Score
+  ** Equal to tempScore in player1 object
+  ** Equal to the sum of the array with index i in throws 2D array in player1 object
+  ** Repeats with p2Score & player2
+  */
   let p1Score = player1.tempScore = player1.throws[i].reduce(
     (total, value) => {return total + value}
   );
@@ -154,6 +173,7 @@ for (let i = 0; i < 5; i++) {
     (total, value) => {return total + value}
   );
 
+  // Check if p1Score is odd or even and adds/takes correct amount of points
   if (p1Score % 2) {
     p1Score -= 5;
     p1OddEven = "odd";
@@ -161,7 +181,8 @@ for (let i = 0; i < 5; i++) {
     p1Score += 10;
     p1OddEven = "even";
   }
-
+  
+  // Repeats above for p2Score
   if (p2Score % 2) {
     p2Score -= 5;
     p2OddEven = "odd";
@@ -170,9 +191,11 @@ for (let i = 0; i < 5; i++) {
     p2OddEven = "even";
   }
 
+  // Checks if either score is < 0, if so make it 0
   p1Score = p1Score < 0 ? 0 : p1Score;
   p2Score = p2Score < 0 ? 0 : p2Score;
 
+  // Adds temporary scores to main score
   player1.score += p1Score;
   player2.score += p2Score;
 
@@ -196,6 +219,7 @@ for (let i = 0; i < 5; i++) {
   prompt("Press enter to continue ");
 }
 
+// Extra rounds
 while (player1.score == player2.score) {
   player1.throws.push(throwDie());
   player2.throws.push(throwDie());
@@ -219,18 +243,22 @@ console.log(`
     ***************
 `)
 
+// Prints winner, their score, and other's score
 console.log(`
     Well Done Player ${player1.score > player2.score ? "1" : "2"}, you won, with a score of ${player1.score > player2.score ? player1.score : player2.score} compared to Player ${player1.score < player2.score ? "1" : "2"}'s score of ${player1.score < player2.score ? player1.score : player2.score}
 `);
 
+// Checks and prints if any player beat their top score
 console.log(`
     Player 1 ${player1.score > player1.topScore ? "beat" : "didn't beat"} their top score of ${player1.topScore}. 
     Player 2 ${player2.score > player2.topScore ? "beat" : "didn't beat"} their top score of ${player2.topScore}. 
 `)
 
+// If topscore beaten, update local variable for it
 if (player1.score > player1.topScore) player1.topScore = player1.score;
 if (player2.score > player2.topScore) player2.topScore = player2.score;
 
+// Update DB with new topscore
 updateTopScore(player1.uid, player1.topScore);
 updateTopScore(player2.uid, player2.topScore);
 
@@ -240,7 +268,10 @@ logLeaderboard();
 
 prompt("Press enter to restart ")
 } catch (err) {
+  // If error, print it
 	console.log(err);
+  // Ask to restart
 	prompt("Press enter to restart ");
-	process.exit(1)
+	// Exit with non-zero error code
+  process.exit(1);
 }
