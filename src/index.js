@@ -181,7 +181,7 @@ for (let i = 0; i < 5; i++) {
     p1Score += 10;
     p1OddEven = "even";
   }
-  
+
   // Repeats above for p2Score
   if (p2Score % 2) {
     p2Score -= 5;
@@ -269,9 +269,9 @@ logLeaderboard();
 prompt("Press enter to restart ")
 } catch (err) {
   // If error, print it
-	console.log(err);
+  console.log(err);
   // Ask to restart
-	prompt("Press enter to restart ");
+  prompt("Press enter to restart ");
 	// Exit with non-zero error code
   process.exit(1);
 }
