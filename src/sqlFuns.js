@@ -1,5 +1,7 @@
-// Commit sql change 
-
+// Imports:
+//    - bcrypt - password hashing module
+//    - better-sqlite3 - sqlite3 handler for DB
+//    - testFuns.js - library I made for validating user input
 const bcrypt = require(`bcrypt`);
 const sqlDb = require(`better-sqlite3`);
 const db = new sqlDb(`dicegame.db`);
