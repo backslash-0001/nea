@@ -43,38 +43,38 @@ const logLeaderboard = () => {
 
 // Main function, try-catch used to properly handle errors
 try {
-console.log(`
-   _      __    __ 
-  | | /| / /__ / /______  __ _  ___ 
-  | |/ |/ / -_) / __/ _ \\/  ' \\/ -_)
-  |__/|__/\\__/_/\\__/\\___/_/_/_/\\__/ 
+  console.log(`
+     _      __    __ 
+    | | /| / /__ / /______  __ _  ___ 
+    | |/ |/ / -_) / __/ _ \\/  ' \\/ -_)
+    |__/|__/\\__/_/\\__/\\___/_/_/_/\\__/ 
 
-  To my NEA Dice Game
-`);
+    To my NEA Dice Game
+  `);
 
-// Initialise player1 & player2
-const player1 = {
-  uid: 0,
-  name: "",
-  email: "",
-  topScore: 0,
-  throws: [],
-  tempScore: 0,
-  score: 0
-};
+  // Initialise player1 & player2
+  const player1 = {
+    uid: 0,
+    name: "",
+    email: "",
+    topScore: 0,
+    throws: [],
+    tempScore: 0,
+    score: 0
+  };
 
-const player2 = {
-  uid: 0,
-  name: "",
-  email: "",
-  topScore: 0,
-  throws: [],
-  tempScore: 0,
-  score: 0
-};
+  const player2 = {
+    uid: 0,
+    name: "",
+    email: "",
+    topScore: 0,
+    throws: [],
+    tempScore: 0,
+    score: 0
+  };
 
-// Attempts authorisation of player1
-try {
+  // Attempts authorisation of player1
+  try {
   // Prompts user if they want to login or register
   if (prompt("Player 1, would you like to register or login? (R/l) ").toLowerCase() == "l") {
     console.log("Login:\n");
