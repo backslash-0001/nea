@@ -4,7 +4,7 @@
 //    - testFuns.js - library I made for validating user input
 const bcrypt = require(`bcrypt`);
 const sqlDb = require(`better-sqlite3`);
-const db = new sqlDb(`dicegame.db`);
+const db = new sqlDb(`/home/nea/dicegame.db`);
 const validator = require(`./testFuns`);
 
 let exportFuns = {};
@@ -19,6 +19,14 @@ exportFuns.createTable = () => {
                 topScore INT
               )`);
   stmt.run();
+}
+
+// Resets table
+exportFuns.resetTable = () => {
+  let stmt = db.prepare("DROP TABLE users");
+  stmt.run();
+  // stmt = db.prepare("ALTER TABLE users AUTO_INCREMENT = 0")
+  // stmt.run();
 }
 
 // Test function that retrieves everything from the table

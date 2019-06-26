@@ -207,14 +207,14 @@ for (let i = 0; i < 5; i++) {
     Player 1 Rolled a ${player1.throws[i][0]} and a ${player1.throws[i][1]}
     ${player1.throws[i][2] ? `This double means they had a third roll of ${player1.throws[i][2]}` : ''}
 
-      Player 2 Rolled a ${player2.throws[i][0]} and a ${player2.throws[i][1]}
-      ${player2.throws[i][2] ? `This double means they had a third roll of ${player2.throws[i][2]}` : ''}
+    Player 2 Rolled a ${player2.throws[i][0]} and a ${player2.throws[i][1]}
+    ${player2.throws[i][2] ? `This double means they had a third roll of ${player2.throws[i][2]}` : ''}
 
-      Because their total score for this round was ${p1OddEven}, player 1 ${p1OddEven == "odd" ? "lost 5 points" : "gained 10 points"}.
-      Because their total score for this round was ${p2OddEven}, player 2 ${p2OddEven == "odd" ? "lost 5 points" : "gained 10 points"}.
+    Because their total score for this round was ${p1OddEven}, player 1 ${p1OddEven == "odd" ? "lost 5 points" : "gained 10 points"}.
+    Because their total score for this round was ${p2OddEven}, player 2 ${p2OddEven == "odd" ? "lost 5 points" : "gained 10 points"}.
 
-      This means for this round Player 1 scored ${p1Score}${i == 0 ? "." : `, giving them a total so far of ${player1.score}.`}
-      Also, for this round, Player 2 scored ${p2Score}${i == 0 ? "." : `, giving them a total so far of ${player2.score}.`}
+    This means for this round Player 1 scored ${p1Score}${i == 0 ? "." : `, giving them a total so far of ${player1.score}.`}
+    Also, for this round, Player 2 scored ${p2Score}${i == 0 ? "." : `, giving them a total so far of ${player2.score}.`}
     `);
     prompt("Press enter to continue ");
   }
